@@ -164,8 +164,8 @@ public class LinkedList<E extends Comparable> implements Iterable<E> {
          */
         
         if (startNode == endNode) {
-            if (data.compareTo(startNode.data) > 0) {
-                startNode.next = new LinkedListNode<>(data, null);
+            if (data.compareTo(startNode.data) >= 0) {
+                startNode.next = new LinkedListNode<>(data, startNode.next);
                 if (this.tail == endNode) {
                     this.tail = startNode;
                 }
@@ -179,9 +179,18 @@ public class LinkedList<E extends Comparable> implements Iterable<E> {
             ++this.length;
             return;
         }
+        
+        if (startNode.next == endNode) {
+            if (data.compareTo(startNode.data) >= 0) {
+                this.sortedInsert(endNode, endNode, data);
+            } else {
+                this.sortedInsert(startNode, startNode, data);
+            }
+            return;
+        }
 
         LinkedListNode<E> middleNode = this.findMiddle(startNode, endNode);
-        if (data.compareTo(middleNode.data) > 0) {
+        if (data.compareTo(middleNode.data) >= 0) {
             this.sortedInsert(middleNode, endNode, data);
         } else {
             this.sortedInsert(startNode, middleNode, data);
