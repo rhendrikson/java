@@ -8,11 +8,11 @@ package linkedlist;
  *
  * @author YeAndNoni
  */
-public class LinkedListNode<T> {
-    public T data;
-    public LinkedListNode<T> next;
+public class LinkedListNode<E extends Comparable> {
+    public E data;
+    public LinkedListNode<E> next;
     
-    public LinkedListNode(T data, LinkedListNode<T> next) {
+    public LinkedListNode(E data, LinkedListNode<E> next) {
         this.data = data;
         this.next = next;
     }

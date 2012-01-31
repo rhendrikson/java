@@ -23,7 +23,7 @@ public class LinkedListProblems {
                 + "deleteList,deleteEmptyList,push,pop,popEmptyList,"
                 + "insertAtHead,insertAtMiddle,insertAtTail,insertAtNegativeIndex,insertAtIndexExceedingLength,"
                 + "splitOneElementList,splitTwoElementList,splitThreeElementList,splitEvenList,splitOddList,"
-                + "sortedInsertSmaller";
+                + "sortedInsertSmallerHead,sortedInsertSmallerMiddle,sortedInsertLargerMiddle,sortedInsertLargerTail";
 
         if (args.length > 0) {
             testsToRun = args[0];
@@ -101,8 +101,17 @@ public class LinkedListProblems {
                 case "splitoddlist":
                     splitOddList();
                     break;
-                case "sortedinsertsmaller":
-                    sortedInsertSmaller();
+                case "sortedinsertsmallerhead":
+                    sortedInsertSmallerHead();
+                    break;
+                case "sortedinsertsmallermiddle":
+                    sortedInsertSmallerMiddle();
+                    break;
+                case "sortedinsertlargermiddle":
+                    sortedInsertLargerMiddle();
+                    break;
+                case "sortedinsertlargertail":
+                    sortedInsertLargerTail();
                     break;
                 default:
                     break;
@@ -335,11 +344,35 @@ public class LinkedListProblems {
         }
     }
 
-    private static void sortedInsertSmaller() {
+    private static void sortedInsertSmallerHead() {
         final StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
         printMethodName(stackTrace);
         LinkedList<Integer> integers = createIntegerLinkedList();
         integers.sortedInsert(0);
+        integers.print();
+    }
+    
+    private static void sortedInsertSmallerMiddle() {
+        final StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
+        printMethodName(stackTrace);
+        LinkedList<Integer> integers = createIntegerLinkedList();
+        integers.sortedInsert(4);
+        integers.print();
+    }
+    
+    private static void sortedInsertLargerMiddle() {
+        final StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
+        printMethodName(stackTrace);
+        LinkedList<Integer> integers = createIntegerLinkedList();
+        integers.sortedInsert(7);
+        integers.print();
+    }
+    
+    private static void sortedInsertLargerTail() {
+        final StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
+        printMethodName(stackTrace);
+        LinkedList<Integer> integers = createIntegerLinkedList();
+        integers.sortedInsert(11);
         integers.print();
     }
 

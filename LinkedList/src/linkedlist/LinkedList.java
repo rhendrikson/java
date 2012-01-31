@@ -147,41 +147,63 @@ public class LinkedList<E extends Comparable> implements Iterable<E> {
     }
 
     public void sortedInsert(E data) {
-        this.sortedInsert(this, data);
+        if (this.isEmpty()) {
+            this.append(data);
+            return;
+        }
+        
+        this.sortedInsert(this.head, this.tail, data);
     }
 
-    private void sortedInsert(LinkedList<E> list, E data) {
+    private void sortedInsert(LinkedListNode<E> startNode, LinkedListNode<E> endNode, E data) {
         /*
          * Assume the list elements are unique. Split list in half. If list
          * length == 1 If data > head insert data at tail else insert data at
          * head If data > head of second half run sortedInsert in second half
          * else run sortedInsert in first half
          */
-        if (list.isEmpty()) {
-            list.append(data);
-            return;
-        }
         
-        if (list.getLength() == 1) {
-            if (data.compareTo(list.head.data) > 0) {
-                list.append(data);
-                return;
+        if (startNode == endNode) {
+            if (data.compareTo(startNode.data) > 0) {
+                startNode.next = new LinkedListNode<>(data, null);
+                if (this.tail == endNode) {
+                    this.tail = startNode;
+                }
             }
-            
-            list.push(data);
+            else {
+                startNode = new LinkedListNode<>(data, startNode);
+                if (this.head == endNode) {
+                    this.head = startNode;
+                }
+            }
+            ++this.length;
             return;
         }
 
-        try {
-            LinkedListPair<E> lists = this.split(list);
-            if (data.compareTo(lists.secondList.head.data) > 0) {
-                this.sortedInsert(lists.secondList, data);
-            } else {
-                this.sortedInsert(lists.firstList, data);
-            }
-        } catch (EmptyListException e) {
-            // Will never happen because empty list case is handled above.
+        LinkedListNode<E> middleNode = this.findMiddle(startNode, endNode);
+        if (data.compareTo(middleNode.data) > 0) {
+            this.sortedInsert(middleNode, endNode, data);
+        } else {
+            this.sortedInsert(startNode, middleNode, data);
         }
+    }
+    
+    private LinkedListNode<E> findMiddle(
+            LinkedListNode<E> startNode, 
+            LinkedListNode<E> endNode) {
+        
+        LinkedListNode<E> slowPointer = startNode;
+        LinkedListNode<E> fastPointer = startNode;
+        while (fastPointer != null && 
+               fastPointer != endNode &&
+               fastPointer.next != null &&
+               fastPointer.next != endNode) {
+            
+            slowPointer = slowPointer.next;
+            fastPointer = fastPointer.next.next;
+        }
+        
+        return slowPointer;
     }
 
     public LinkedListPair<E> split(LinkedList<E> list) throws EmptyListException {
