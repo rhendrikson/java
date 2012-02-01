@@ -5,6 +5,8 @@
 package linkedlist;
 
 import java.util.Iterator;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -146,42 +148,54 @@ public class LinkedList<E extends Comparable> implements Iterable<E> {
         ++this.length;
     }
 
+    public void appendNode(LinkedListNode<E> node) {
+        if (this.isEmpty()) {
+            this.head = node;
+            this.tail = this.head;
+            ++this.length;
+            return;
+        }
+
+        this.tail.next = node;
+        this.tail = node;
+        ++this.length;
+    }
+
     public void sortedInsert(E data) {
         if (this.isEmpty()) {
             this.append(data);
             return;
         }
-        
+
         this.sortedInsert(this.head, this.tail, data);
     }
 
+    public void insertSort() throws EmptyListException {
+        LinkedList<E> sortedList = new LinkedList<>();
+        for (E data : this) {
+            sortedList.sortedInsert(data);
+        }
+        this.deleteList();
+        this.head = sortedList.head;
+    }
+
     private void sortedInsert(LinkedListNode<E> startNode, LinkedListNode<E> endNode, E data) {
-        /*
-         * Assume the list elements are unique. Split list in half. If list
-         * length == 1 If data > head insert data at tail else insert data at
-         * head If data > head of second half run sortedInsert in second half
-         * else run sortedInsert in first half
-         */
-        
         if (startNode == endNode) {
             if (data.compareTo(startNode.data) >= 0) {
                 startNode.next = new LinkedListNode<>(data, startNode.next);
                 if (this.tail == endNode) {
-                    this.tail = startNode;
+                    this.tail = startNode.next;
                 }
-            }
-            else {
+            } else {
                 startNode = new LinkedListNode<>(data, startNode);
-                if (this.head == endNode) {
-                    this.head = startNode;
-                }
+                this.head = startNode;  // At this point, data is smallest in the list.
             }
             ++this.length;
             return;
         }
-        
+
         if (startNode.next == endNode) {
-            if (data.compareTo(startNode.data) >= 0) {
+            if (data.compareTo(startNode.data) > 0) {
                 this.sortedInsert(endNode, endNode, data);
             } else {
                 this.sortedInsert(startNode, startNode, data);
@@ -190,41 +204,41 @@ public class LinkedList<E extends Comparable> implements Iterable<E> {
         }
 
         LinkedListNode<E> middleNode = this.findMiddle(startNode, endNode);
-        if (data.compareTo(middleNode.data) >= 0) {
+        if (data.compareTo(middleNode.data) > 0) {
             this.sortedInsert(middleNode, endNode, data);
         } else {
             this.sortedInsert(startNode, middleNode, data);
         }
     }
-    
+
     private LinkedListNode<E> findMiddle(
-            LinkedListNode<E> startNode, 
+            LinkedListNode<E> startNode,
             LinkedListNode<E> endNode) {
-        
+
         LinkedListNode<E> slowPointer = startNode;
         LinkedListNode<E> fastPointer = startNode;
-        while (fastPointer != null && 
-               fastPointer != endNode &&
-               fastPointer.next != null &&
-               fastPointer.next != endNode) {
-            
+        while (fastPointer != null
+                && fastPointer != endNode
+                && fastPointer.next != null
+                && fastPointer.next != endNode) {
+
             slowPointer = slowPointer.next;
             fastPointer = fastPointer.next.next;
         }
-        
+
         return slowPointer;
     }
 
-    public LinkedListPair<E> split(LinkedList<E> list) throws EmptyListException {
-        if (list.isEmpty()) {
+    public LinkedListPair<E> split() throws EmptyListException {
+        if (this.isEmpty()) {
             throw new EmptyListException();
         }
 
         LinkedList<E> firstList;
         LinkedList<E> secondList;
 
-        LinkedListNode<E> slowPointer = list.head;
-        LinkedListNode<E> fastPointer = list.head;
+        LinkedListNode<E> slowPointer = this.head;
+        LinkedListNode<E> fastPointer = this.head;
 
         firstList = new LinkedList<>();
         while (fastPointer != null && fastPointer.next != null) {
@@ -233,7 +247,7 @@ public class LinkedList<E extends Comparable> implements Iterable<E> {
             fastPointer = fastPointer.next.next;
         }
 
-        if (list.getLength() % 2 == 1) {
+        if (this.getLength() % 2 == 1) {
             firstList.append(slowPointer.data);
             slowPointer = slowPointer.next;
         }
@@ -245,6 +259,47 @@ public class LinkedList<E extends Comparable> implements Iterable<E> {
         }
 
         return new LinkedListPair<>(firstList, secondList);
+    }
+
+    public LinkedListPair<E> alternatingSplit() throws EmptyListException {
+        if (this.isEmpty()) {
+            throw new EmptyListException();
+        }
+
+        if (this.getLength() == 1) {
+            return new LinkedListPair<>(this, null);
+        }
+
+        LinkedList<E> firstList = new LinkedList<>();
+        LinkedList<E> secondList = new LinkedList<>();
+
+        LinkedList<E> destination = firstList;
+        for (LinkedListNode<E> node : this.nodesIterator) {
+            this.moveNode(this, destination);
+            destination = (destination == firstList) ? secondList : firstList;
+        }
+
+        return new LinkedListPair<>(firstList, secondList);
+    }
+
+    public void shuffleMerge(LinkedList<E> firstList, LinkedList<E> secondList) {
+        if (firstList.isEmpty()) {
+            this.appendList(secondList);
+            return;
+        }
+
+        if (secondList.isEmpty()) {
+            this.appendList(firstList);
+            return;
+        }
+
+        try {
+            this.moveNodeToEnd(firstList, this);
+        } catch (EmptyListException e) {
+            // Will never happen.
+        }
+
+        this.shuffleMerge(secondList, firstList);
     }
 
     public boolean isEmpty() {
@@ -300,6 +355,48 @@ public class LinkedList<E extends Comparable> implements Iterable<E> {
         this.head = this.head.next;
         --this.length;
         return data;
+    }
+
+    public LinkedListNode<E> popNode() throws EmptyListException {
+        if (this.isEmpty()) {
+            throw new EmptyListException();
+        }
+
+        LinkedListNode<E> node = this.head;
+        this.head = this.head.next;
+        node.next = null;
+        --this.length;
+        return node;
+    }
+
+    public void pushNode(LinkedListNode<E> node) {
+        if (this.isEmpty()) {
+            this.tail = node;
+        }
+        node.next = this.head;
+        this.head = node;
+        this.length++;
+    }
+
+    public void removeDuplicates() {
+        LinkedListNode<E> currentNode = this.head;
+        LinkedListNode<E> previousNode = null;
+        while (currentNode != null) {
+            if (previousNode != null && currentNode.data.compareTo(previousNode.data) == 0) {
+                previousNode.next = currentNode.next;
+            } else {
+                previousNode = currentNode;
+            }
+            currentNode = currentNode.next;
+        }
+    }
+
+    public void moveNode(LinkedList<E> source, LinkedList<E> destination) throws EmptyListException {
+        destination.pushNode(source.popNode());
+    }
+
+    public void moveNodeToEnd(LinkedList<E> source, LinkedList<E> destination) throws EmptyListException {
+        destination.appendNode(source.popNode());
     }
 
     @Override

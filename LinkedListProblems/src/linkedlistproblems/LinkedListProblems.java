@@ -5,6 +5,8 @@
 package linkedlistproblems;
 
 import java.util.StringTokenizer;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import linkedlist.EmptyListException;
 import linkedlist.LinkedList;
 import linkedlist.LinkedListPair;
@@ -23,7 +25,9 @@ public class LinkedListProblems {
                 + "deleteList,deleteEmptyList,push,pop,popEmptyList,"
                 + "insertAtHead,insertAtMiddle,insertAtTail,insertAtNegativeIndex,insertAtIndexExceedingLength,"
                 + "splitOneElementList,splitTwoElementList,splitThreeElementList,splitEvenList,splitOddList,"
-                + "sortedInsertSmallerHead,sortedInsertSmallerMiddle,sortedInsertLargerMiddle,sortedInsertLargerTail";
+                + "sortedInsertSmallerHead,sortedInsertSmallerMiddle,sortedInsertLargerMiddle,sortedInsertLargerTail,"
+                + "insertSort,removeDuplicates,removeDuplicatesInUniqueList,moveNode,"
+                + "alternatingSplit,alternatingSplitEmptyList,alternatingSplitSingleNodeList,shuffleMerge";
 
         if (args.length > 0) {
             testsToRun = args[0];
@@ -112,6 +116,30 @@ public class LinkedListProblems {
                     break;
                 case "sortedinsertlargertail":
                     sortedInsertLargerTail();
+                    break;
+                case "insertsort":
+                    insertSort();
+                    break;
+                case "removeduplicates":
+                    removeDuplicates();
+                    break;
+                case "removeduplicatesinuniquelist":
+                    removeDuplicatesInUniqueList();
+                    break;
+                case "movenode":
+                    moveNode();
+                    break;
+                case "alternatingsplit":
+                    alternatingSplit();
+                    break;
+                case "alternatingsplitemptylist":
+                    alternatingSplitEmptyList();
+                    break;
+                case "alternatingsplitsinglenodelist":
+                    alternatingSplitSingleNodeList();
+                    break;
+                case "shufflemerge":
+                    shuffleMerge();
                     break;
                 default:
                     break;
@@ -276,7 +304,7 @@ public class LinkedListProblems {
         LinkedList<Integer> integers = new LinkedList<>();
         integers.append(1);
         try {
-            LinkedListPair<Integer> lists = integers.split(integers);
+            LinkedListPair<Integer> lists = integers.split();
             lists.firstList.print();
             if (lists.secondList != null) {
                 lists.secondList.print();
@@ -293,7 +321,7 @@ public class LinkedListProblems {
         integers.append(1);
         integers.append(2);
         try {
-            LinkedListPair<Integer> lists = integers.split(integers);
+            LinkedListPair<Integer> lists = integers.split();
             lists.firstList.print();
             lists.secondList.print();
         } catch (EmptyListException e) {
@@ -309,7 +337,7 @@ public class LinkedListProblems {
         integers.append(2);
         integers.append(3);
         try {
-            LinkedListPair<Integer> lists = integers.split(integers);
+            LinkedListPair<Integer> lists = integers.split();
             lists.firstList.print();
             lists.secondList.print();
         } catch (EmptyListException e) {
@@ -322,7 +350,7 @@ public class LinkedListProblems {
         printMethodName(stackTrace);
         LinkedList<Integer> integers = createIntegerLinkedList();
         try {
-            LinkedListPair<Integer> lists = integers.split(integers);
+            LinkedListPair<Integer> lists = integers.split();
             lists.firstList.print();
             lists.secondList.print();
         } catch (EmptyListException e) {
@@ -336,7 +364,7 @@ public class LinkedListProblems {
         LinkedList<Integer> integers = createIntegerLinkedList();
         integers.append(11);
         try {
-            LinkedListPair<Integer> lists = integers.split(integers);
+            LinkedListPair<Integer> lists = integers.split();
             lists.firstList.print();
             lists.secondList.print();
         } catch (EmptyListException e) {
@@ -374,6 +402,103 @@ public class LinkedListProblems {
         LinkedList<Integer> integers = createIntegerLinkedList();
         integers.sortedInsert(11);
         integers.print();
+    }
+
+    private static void insertSort() {
+        final StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
+        printMethodName(stackTrace);
+        LinkedList<Integer> integers = createIntegerLinkedList();
+        try {
+            integers.insertSort();
+            integers.print();
+        } catch (EmptyListException e) {
+            System.out.println(e);
+        }
+    }
+
+    private static void removeDuplicates() {
+        final StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
+        printMethodName(stackTrace);
+        LinkedList<Integer> integers = createIntegerLinkedList();
+        integers.sortedInsert(4);
+        integers.print();
+        integers.removeDuplicates();
+        integers.print();
+    }
+
+    private static void removeDuplicatesInUniqueList() {
+        final StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
+        printMethodName(stackTrace);
+        LinkedList<Integer> integers = createIntegerLinkedList();
+        integers.print();
+        integers.removeDuplicates();
+        integers.print();
+    }
+
+    private static void moveNode() {
+        final StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
+        printMethodName(stackTrace);
+        LinkedList<Integer> source = createIntegerLinkedList();
+        LinkedList<Integer> destination = createIntegerLinkedList();
+        try {
+            source.moveNode(source, destination);
+            source.print();
+            destination.print();
+        } catch (EmptyListException e) {
+            System.out.println(e);
+        }
+    }
+
+    private static void alternatingSplit() {
+        final StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
+        printMethodName(stackTrace);
+        LinkedList<Integer> integers = createIntegerLinkedList();
+        try {
+            LinkedListPair<Integer> lists = integers.alternatingSplit();
+            lists.firstList.print();
+            lists.secondList.print();
+        } catch (EmptyListException e) {
+            System.out.println(e);
+        }
+    }
+
+    private static void alternatingSplitEmptyList() {
+        final StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
+        printMethodName(stackTrace);
+        LinkedList<Integer> integers = new LinkedList<>();
+        try {
+            LinkedListPair<Integer> lists = integers.alternatingSplit();
+        } catch (EmptyListException e) {
+            System.out.println(e);
+        }
+    }
+
+    private static void alternatingSplitSingleNodeList() {
+        final StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
+        printMethodName(stackTrace);
+        LinkedList<Integer> integers = new LinkedList<>();
+        integers.append(1);
+        try {
+            LinkedListPair<Integer> lists = integers.alternatingSplit();
+            lists.firstList.print();
+            if (lists.secondList != null) {
+                lists.secondList.print();
+            }
+        } catch (EmptyListException e) {
+            System.out.println(e);
+        }
+    }
+
+    private static void shuffleMerge() {
+        final StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
+        printMethodName(stackTrace);
+        LinkedList<Integer> integers1 = createIntegerLinkedList();
+        LinkedList<Integer> integers2 = createIntegerLinkedList();
+        LinkedList<Integer> mergedIntegers = new LinkedList<>();
+        integers1.print();
+        integers2.print();
+        mergedIntegers.shuffleMerge(integers1, integers2);
+        mergedIntegers.print();
     }
 
     private static LinkedList<Integer> createIntegerLinkedList() {
