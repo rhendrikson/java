@@ -4,6 +4,7 @@
  */
 package linkedlistproblems;
 
+import java.util.Random;
 import java.util.StringTokenizer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -27,7 +28,8 @@ public class LinkedListProblems {
                 + "splitOneElementList,splitTwoElementList,splitThreeElementList,splitEvenList,splitOddList,"
                 + "sortedInsertSmallerHead,sortedInsertSmallerMiddle,sortedInsertLargerMiddle,sortedInsertLargerTail,"
                 + "insertSort,removeDuplicates,removeDuplicatesInUniqueList,moveNode,"
-                + "alternatingSplit,alternatingSplitEmptyList,alternatingSplitSingleNodeList,shuffleMerge";
+                + "alternatingSplit,alternatingSplitEmptyList,alternatingSplitSingleNodeList,shuffleMerge,"
+                + "sortedMerge,mergeSort";
 
         if (args.length > 0) {
             testsToRun = args[0];
@@ -140,6 +142,12 @@ public class LinkedListProblems {
                     break;
                 case "shufflemerge":
                     shuffleMerge();
+                    break;
+                case "sortedmerge":
+                    sortedMerge();
+                    break;
+                case "mergesort":
+                    mergeSort();
                     break;
                 default:
                     break;
@@ -499,6 +507,36 @@ public class LinkedListProblems {
         integers2.print();
         mergedIntegers.shuffleMerge(integers1, integers2);
         mergedIntegers.print();
+    }
+
+    private static void sortedMerge() {
+        final StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
+        printMethodName(stackTrace);
+        LinkedList<Integer> integers1 = createIntegerLinkedList();
+        LinkedList<Integer> integers2 = createIntegerLinkedList();
+        LinkedList<Integer> mergedIntegers = new LinkedList<>();
+        integers1.print();
+        integers2.print();
+        mergedIntegers.sortedMerge(integers1, integers2);
+        mergedIntegers.print();
+    }
+
+    private static void mergeSort() {
+        final StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
+        printMethodName(stackTrace);
+        LinkedList<Integer> integers = createRandomIntegerLinkedList();
+        integers.print();
+        LinkedList<Integer> sortedIntegers = new LinkedList<>();
+        sortedIntegers.mergeSort(integers);
+        sortedIntegers.print();
+    }
+
+    private static LinkedList<Integer> createRandomIntegerLinkedList() {
+        LinkedList<Integer> integers = new LinkedList<>();
+        for (int i = 10; i > 0; i--) {
+            integers.insert((new Random()).nextInt(9) + 1);
+        }
+        return integers;
     }
 
     private static LinkedList<Integer> createIntegerLinkedList() {

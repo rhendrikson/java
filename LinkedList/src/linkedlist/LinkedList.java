@@ -229,6 +229,57 @@ public class LinkedList<E extends Comparable> implements Iterable<E> {
         return slowPointer;
     }
 
+    public void sortedMerge(LinkedList<E> firstList, LinkedList<E> secondList) {
+        if (firstList.isEmpty()) {
+            this.appendList(secondList);
+            return;
+        }
+
+        if (secondList.isEmpty()) {
+            this.appendList(firstList);
+            return;
+        }
+
+        try {
+            if (firstList.head.data.compareTo(secondList.head.data) <= 0) {
+                this.moveNodeToEnd(firstList, this);
+            } else {
+                this.moveNodeToEnd(secondList, this);
+            }
+        } catch (EmptyListException ex) {
+            // Will never happen.
+        }
+
+        this.sortedMerge(firstList, secondList);
+    }
+
+    public void mergeSort(LinkedList<E> list) {
+        if (list.isEmpty()) {
+            return;
+        }
+
+        if (list.getLength() == 1) {
+            return;
+        }
+
+        try {
+            if (list.getLength() == 2) {
+                if (list.head.data.compareTo(list.head.next.data) < 0) {
+                    list.moveNodeToEnd(list, list);
+                }
+                return;
+            }
+        
+            LinkedListPair<E> lists = list.split();
+            this.mergeSort(lists.firstList);
+            this.mergeSort(lists.secondList);
+
+            this.sortedMerge(lists.firstList, lists.secondList);
+        } catch (EmptyListException e) {
+            // Will never happen.
+        }
+    }
+
     public LinkedListPair<E> split() throws EmptyListException {
         if (this.isEmpty()) {
             throw new EmptyListException();
