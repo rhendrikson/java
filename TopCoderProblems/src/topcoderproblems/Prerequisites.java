@@ -90,7 +90,7 @@ public class Prerequisites {
             }
         }        
     }
-    
+
     private void setClassPrerequisites(String[] classes) {
         for (String classList : classes) {
             if (!classList.matches("^[A-Z]{3,4}[1-9]{1}[0-9]{2}:( [A-Z]{3,4}[1-9]{1}[0-9]{2})*$")) {
