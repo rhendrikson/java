@@ -14,6 +14,7 @@ public class TopCoderProblems {
     public static void main(String[] args) {
         TestSquareDigits();
         TestPrerequisites();
+        TestBinaryCode();
     }
     
     private static void TestSquareDigits() {
@@ -47,6 +48,23 @@ public class TopCoderProblems {
         for (String[] testCase : testCases) {
             System.out.println("Test case: " + Arrays.deepToString(testCase));
             System.out.println("Schedule: " + Arrays.deepToString(new Prerequisites().orderClasses(testCase)));
+        }
+    }
+
+    private static void TestBinaryCode() {
+        String[] testCases = new String[]
+        { 
+            "123210122", 
+            "11", 
+            "22111", 
+            "123210120", 
+            "3", 
+            "12221112222221112221111111112221111" 
+        };
+        
+        for (String testCase : testCases) {
+            System.out.println("Test case: " + testCase);
+            System.out.println("Decoded values: " + Arrays.deepToString(new BinaryCode().decode(testCase)));
         }
     }
 }
