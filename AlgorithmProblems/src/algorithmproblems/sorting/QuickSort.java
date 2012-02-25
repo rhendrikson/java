@@ -14,20 +14,6 @@ public class QuickSort<T extends Comparable> {
     }
     
     private void sort(List<T> data, int startIndex, int endIndex) {
-        // find median of three
-        // set median as pivot
-        // move smallest element to front, largest to middle
-        // set frontIndex to second element
-        // set backIndex to second last element
-        // while frontIndex < backIndex
-        //      if data[frontIndex] > pivot and data[backIndex] < pivot
-        //          swap data[frontIndex] data[backIndex]
-        //      frontIndex++;
-        //      backIndex++;
-        // last element = data[frontIndex]
-        // data[frontIndex] = pivot
-        // sort(data, 0, frontIndex)
-        // sort(data, frontIndex, second last element index)
         int sortSize = endIndex - startIndex + 1;
         
         if (sortSize <= 1) return;
@@ -54,13 +40,13 @@ public class QuickSort<T extends Comparable> {
         int frontIndex = startIndex + 1;
         int backIndex = endIndex - 1;
         while (frontIndex < backIndex) {
-            if (data.get(frontIndex).compareTo(minMedianMax.median) > 0 &&
-                data.get(backIndex).compareTo(minMedianMax.median) < 0) {
+            if (data.get(frontIndex).compareTo(minMedianMax.median) >= 0 &&
+                data.get(backIndex).compareTo(minMedianMax.median) <= 0) {
                 this.swap(data, frontIndex++, backIndex--);
             }
             
-            if (data.get(frontIndex).compareTo(minMedianMax.median) <= 0) frontIndex++;
-            if (data.get(backIndex).compareTo(minMedianMax.median) >= 0) backIndex--;
+            if (data.get(frontIndex).compareTo(minMedianMax.median) < 0) frontIndex++;
+            if (data.get(backIndex).compareTo(minMedianMax.median) > 0) backIndex--;
         }
         data.set(endIndex, data.get(frontIndex));
         data.set(frontIndex, minMedianMax.median);
