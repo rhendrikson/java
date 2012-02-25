@@ -12,6 +12,12 @@ import org.junit.Test;
 public class UniqueCharactersStringTest {
 
     @Test
+    public void testEmptyString() {
+        String string = "";
+        assertFalse(new UniqueCharactersString().areAllCharactersUnique(string));
+    }
+
+    @Test
     public void testUniqueCharacterString() {
         String string = "qkibycghre";
         assertTrue(new UniqueCharactersString().areAllCharactersUnique(string));
