@@ -18,6 +18,12 @@ public class UniqueCharactersStringTest {
     }
 
     @Test
+    public void testSingleCharacterString() {
+        String string = "a";
+        assertTrue(new UniqueCharactersString().areAllCharactersUnique(string));
+    }
+
+    @Test
     public void testUniqueCharacterString() {
         String string = "qkibycghre";
         assertTrue(new UniqueCharactersString().areAllCharactersUnique(string));

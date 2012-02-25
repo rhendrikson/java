@@ -12,6 +12,8 @@ public class UniqueCharactersString {
     public boolean areAllCharactersUnique(String string) {
         if (string.isEmpty()) return false;
         
+        if (string.length() == 1) return true;
+        
         char[] characters = string.toCharArray();
         Arrays.sort(characters);
         for (int i = 1; i < characters.length; i++) {
