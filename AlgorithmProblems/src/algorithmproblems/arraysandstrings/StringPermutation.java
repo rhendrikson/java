@@ -5,52 +5,67 @@
 
 package algorithmproblems.arraysandstrings;
 
-import java.util.Arrays;
-import java.util.HashMap;
+import algorithmproblems.arraysandstrings.PermutationCheckStrategy.CharacterCountPermutationCheckStrategy;
+import algorithmproblems.arraysandstrings.PermutationCheckStrategy.PermutationCheckStrategy;
+import java.util.ArrayList;
 
 public class StringPermutation {
+    
+    private PermutationCheckStrategy strategy;
+    
+    public StringPermutation() {
+        this.strategy = new CharacterCountPermutationCheckStrategy();
+    }
 
-    public static boolean isPermutation(String string1, String string2) {
-        if (string1.isEmpty() || string2.isEmpty()) return false;
-        
-        if (string1.length() != string2.length()) return false;
-        
-        HashMap<Character, Integer> characterCounts = new HashMap<>(string1.length());
-        for (Character character : string1.toCharArray()) {
-            int count = characterCounts.get(character) == null ? 0 : characterCounts.get(character);
-            characterCounts.put(character, ++count);
-        }
-        
-        for (Character character : string2.toCharArray()) {
-            int count = characterCounts.get(character) == null ? 0 : characterCounts.get(character);
-            characterCounts.put(character, --count);
-            if (count < 0) return false;
-        }
-        
-        return true;
+    public boolean isPermutation(String source, String permutation) {
+        return this.strategy.isPermutation(source, permutation);
+    }
+    
+    public void setStrategy(PermutationCheckStrategy strategy) {
+        this.strategy = strategy;
     }
     
     public static String[] getPermutations(String string) {
-        if (string.isEmpty()) return new String[0];
+        if (string == null || string.isEmpty()) return new String[0];
         
         if (string.length() == 1) {
             return new String[] { string };
         }
-        
-        if (string.length() == 2) {
+             
+        if (string.length() <= 2) {
             return new String[]
             {
                 string,
-                String.copyValueOf(new char[] { string.charAt(1), string.charAt(0) } )
+                StringHelper.reverse(string)
             };
         }
         
-        return concat(getPermutations(string), getPermutations(string));
+        if (string.length() > 7) {
+            throw new IllegalArgumentException();
+        }
+        
+        char firstCharacter = string.charAt(0);
+        String remainingString = string.substring(1);
+        ArrayList<String> permutations = new ArrayList<>();
+        String[] subpermutations;
+        if (remainingString.length() == 2) {
+            subpermutations = getPermutations(remainingString);
+        } else {
+            subpermutations = ArrayHelper.concat(getPermutations(remainingString), getPermutations(StringHelper.reverse(remainingString)));
+        }
+        for (String subpermutation : subpermutations) {
+            for (int j = 0; j < string.length(); j++) {
+                StringBuilder permutationBuilder = new StringBuilder();
+                permutationBuilder.append(subpermutation.substring(0, j));
+                permutationBuilder.append(firstCharacter);
+                permutationBuilder.append(subpermutation.substring(j, subpermutation.length()));
+                String permutation = permutationBuilder.toString();
+                if (!permutations.contains(permutation)) {
+                    permutations.add(permutation);
+                }
+            }
+        }
+        return permutations.toArray(new String[0]);
     }
     
-    public static <T> T[] concat(T[] first, T[] second) {
-        T[] result = Arrays.copyOf(first, first.length + second.length);
-        System.arraycopy(second, 0, result, first.length, second.length);
-        return result;
-    }
 }
