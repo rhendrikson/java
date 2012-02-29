@@ -21,13 +21,13 @@ public class StringHelper {
             characters[end] = temp;
         }
         
-        return String.copyValueOf(characters);
+        return String.valueOf(characters);
     }
     
     public static String sort(String string) {
         char[] characters = string.toCharArray();
         Arrays.sort(characters);
-        return String.copyValueOf(characters);
+        return String.valueOf(characters);
     }
     
 }

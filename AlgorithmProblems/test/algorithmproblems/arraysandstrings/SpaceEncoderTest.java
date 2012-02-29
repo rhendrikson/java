@@ -4,10 +4,8 @@
  */
 package algorithmproblems.arraysandstrings;
 
-import org.junit.AfterClass;
+import static org.junit.Assert.assertArrayEquals;
 import org.junit.Test;
-import static org.junit.Assert.*;
-import org.junit.BeforeClass;
 
 public class SpaceEncoderTest {
 
@@ -17,6 +15,12 @@ public class SpaceEncoderTest {
         char[] expected = "I%20am%20Superman.".toCharArray();
         SpaceEncoder.encodeSpace(characters);
         assertArrayEquals(expected, characters);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testEncodeSpaceWithInadequateString() {
+        char[] characters = "I am Superman. ".toCharArray();
+        SpaceEncoder.encodeSpace(characters);
     }
     
 }
