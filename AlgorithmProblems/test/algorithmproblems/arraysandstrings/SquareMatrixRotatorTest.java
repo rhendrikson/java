@@ -11,6 +11,38 @@ import org.junit.Test;
 public class SquareMatrixRotatorTest {
 
     @Test
+    public void testRotate90DegreesWith0x0Matrix() {
+        int[][] matrix =
+        {
+            {}
+        };
+        int[][] expected =
+        {
+            {}
+        };
+        
+        new SquareMatrixRotator().rotate90Degrees(matrix);
+        System.out.println(Arrays.deepToString(matrix));
+        assertArrayEquals(expected, matrix);
+    }
+
+    @Test
+    public void testRotate90DegreesWith1x1Matrix() {
+        int[][] matrix =
+        {
+            {0}
+        };
+        int[][] expected =
+        {
+            {0}
+        };
+        
+        new SquareMatrixRotator().rotate90Degrees(matrix);
+        System.out.println(Arrays.deepToString(matrix));
+        assertArrayEquals(expected, matrix);
+    }
+
+    @Test
     public void testRotate90DegreesWith2x2Matrix() {
         int[][] matrix =
         {
