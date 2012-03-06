@@ -5,26 +5,24 @@
 
 package algorithmproblems.arraysandstrings;
 
-import java.util.ArrayList;
-
 public class ZeroRowAndColumnMatrix {
 
     public static void zeroRowAndColumn(int[][] matrix) {
-        ArrayList<Integer> zeroRows = new ArrayList<>();
-        ArrayList<Integer> zeroColumns = new ArrayList<>();
+        boolean[] zeroRows = new boolean[matrix.length];
+        boolean[] zeroColumns = new boolean[matrix[0].length];
         
         for (int i = 0; i < matrix.length; i++) {
             for (int j = 0; j < matrix[i].length; j++) {
                 if (matrix[i][j] == 0) {
-                    if (!zeroRows.contains(i)) zeroRows.add(i);
-                    if (!zeroColumns.contains(j)) zeroColumns.add(j);
+                    zeroRows[i] = true;
+                    zeroColumns[j] = true;
                 }
             }
         }
         
         for (int i = 0; i < matrix.length; i++) {
             for (int j = 0; j < matrix[i].length; j++) {
-                if (zeroRows.contains(i) || zeroColumns.contains(j)) {
+                if (zeroRows[i] || zeroColumns[j]) {
                     matrix[i][j] = 0;
                 }
             }

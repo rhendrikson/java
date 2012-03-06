@@ -15,20 +15,11 @@ public class SquareMatrixRotator {
     private void rotate90Degrees(int[][] matrix, int startIndex, int endIndex) {
         if (startIndex >= endIndex) return;
         
-        if (endIndex - startIndex == 1) {
-            int temp = matrix[startIndex][startIndex];
-            matrix[startIndex][startIndex] = matrix[endIndex][startIndex];
-            matrix[endIndex][startIndex] = matrix[endIndex][endIndex];
-            matrix[endIndex][endIndex] = matrix[startIndex][endIndex];
-            matrix[startIndex][endIndex] = temp;
-            return;
-        }
-        
         for (int i = startIndex; i < endIndex; i++) {
             int temp = matrix[startIndex][i];
-            matrix[startIndex][i] = matrix[endIndex - i][startIndex];
-            matrix[endIndex - i][startIndex] = matrix[endIndex][endIndex - i];
-            matrix[endIndex][endIndex - i] = matrix[i][endIndex];
+            matrix[startIndex][i] = matrix[endIndex - i + startIndex][startIndex];
+            matrix[endIndex - i + startIndex][startIndex] = matrix[endIndex][endIndex - i + startIndex];
+            matrix[endIndex][endIndex - i + startIndex] = matrix[i][endIndex];
             matrix[i][endIndex] = temp;
         }
         
