@@ -7,6 +7,7 @@ package algorithmproblems.linkedlists;
 
 import algorithmproblems.linkedlists.DeduplicateLinkedListStrategy.DeduplicateLinkedListStrategy;
 import algorithmproblems.linkedlists.DeduplicateLinkedListStrategy.DeduplicateLinkedListWithHashStrategy;
+import algorithmproblems.linkedlists.DeduplicateLinkedListStrategy.DeduplicateLinkedListWithRunnerStrategy;
 import java.util.Arrays;
 import java.util.List;
 import static org.junit.Assert.assertArrayEquals;
@@ -22,7 +23,7 @@ public class DeduplicateLinkedListTest {
         return Arrays.asList(new Object[][]
         {
             { new DeduplicateLinkedListWithHashStrategy() },
-            { new DeduplicateLinkedListWithHashStrategy() }
+            { new DeduplicateLinkedListWithRunnerStrategy() }
         });
     }
     
