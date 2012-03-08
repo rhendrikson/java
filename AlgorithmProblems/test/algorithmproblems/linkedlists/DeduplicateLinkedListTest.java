@@ -5,18 +5,38 @@
 
 package algorithmproblems.linkedlists;
 
+import algorithmproblems.linkedlists.DeduplicateLinkedListStrategy.DeduplicateLinkedListStrategy;
+import algorithmproblems.linkedlists.DeduplicateLinkedListStrategy.DeduplicateLinkedListWithHashStrategy;
 import java.util.Arrays;
-import org.junit.AfterClass;
+import java.util.List;
+import static org.junit.Assert.assertArrayEquals;
 import org.junit.Test;
-import static org.junit.Assert.*;
-import org.junit.BeforeClass;
+import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
 
+@RunWith(Parameterized.class)
 public class DeduplicateLinkedListTest {
+
+    @Parameterized.Parameters
+    public static List<Object[]> strategies() {
+        return Arrays.asList(new Object[][]
+        {
+            { new DeduplicateLinkedListWithHashStrategy() },
+            { new DeduplicateLinkedListWithHashStrategy() }
+        });
+    }
+    
+    private DeduplicateLinkedList deduplicateLinkedList;
+    
+    public DeduplicateLinkedListTest(DeduplicateLinkedListStrategy strategy) {
+        deduplicateLinkedList = new DeduplicateLinkedList();
+        deduplicateLinkedList.setStrategy(strategy);
+    }
 
     @Test
     public void testDeduplicate() {
         SinglyLinkedListNode<Character> linkedList = new SinglyLinkedListNode<>('F', 'O', 'L', 'L', 'O', 'W', ' ', 'U', 'P');
-        DeduplicateLinkedList.deduplicate(linkedList);
+        deduplicateLinkedList.deduplicate(linkedList);
         
         char[] actual = new char[linkedList.length()];
         int i = 0;
