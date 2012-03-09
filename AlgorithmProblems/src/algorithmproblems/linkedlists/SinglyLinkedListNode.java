@@ -6,6 +6,7 @@
 package algorithmproblems.linkedlists;
 
 import java.util.Iterator;
+import java.util.Objects;
 
 public class SinglyLinkedListNode<E extends Comparable> implements Iterable<SinglyLinkedListNode<E>> {
     
@@ -76,6 +77,47 @@ public class SinglyLinkedListNode<E extends Comparable> implements Iterable<Sing
                 throw new UnsupportedOperationException("Not supported yet.");
             }
         };
+    }
+    
+    @Override
+    public boolean equals(Object head) {
+        if (head == null) return false;
+        if (head == this) return true;
+        if (head.getClass() != this.getClass()) return false;
+        
+        SinglyLinkedListNode<E> current = this;
+        SinglyLinkedListNode<E> compareRunner = (SinglyLinkedListNode<E>) head;
+        
+        while (current != null) {
+            if (compareRunner == null ||
+                current.data.compareTo(compareRunner.data) != 0) {
+                return false;
+            }
+            current = current.next;
+            compareRunner = compareRunner.next;
+        }
+        
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 79 * hash + Objects.hashCode(this.data);
+        hash = 79 * hash + Objects.hashCode(this.next);
+        return hash;
+    }
+    
+    @Override
+    public String toString() {
+        StringBuilder stringBuilder = new StringBuilder();
+        for (SinglyLinkedListNode<E> node : this) {
+            stringBuilder.append(node.data);
+            if (node.next != null) {
+                stringBuilder.append(", ");
+            }
+        }
+        return stringBuilder.toString();
     }
 
 }

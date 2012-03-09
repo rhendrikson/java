@@ -10,7 +10,7 @@ import algorithmproblems.linkedlists.DeduplicateLinkedListStrategy.DeduplicateLi
 import algorithmproblems.linkedlists.DeduplicateLinkedListStrategy.DeduplicateLinkedListWithRunnerStrategy;
 import java.util.Arrays;
 import java.util.List;
-import static org.junit.Assert.assertArrayEquals;
+import static org.junit.Assert.*;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
@@ -39,6 +39,8 @@ public class DeduplicateLinkedListTest {
         SinglyLinkedListNode<Character> linkedList = new SinglyLinkedListNode<>('F', 'O', 'L', 'L', 'O', 'W', ' ', 'U', 'P');
         deduplicateLinkedList.deduplicate(linkedList);
         
+        assertFalse(deduplicateLinkedList.hasDuplicate(linkedList));
+        
         char[] actual = new char[linkedList.length()];
         int i = 0;
         for (SinglyLinkedListNode<Character> node : linkedList) {
@@ -50,6 +52,14 @@ public class DeduplicateLinkedListTest {
 
     @Test
     public void testHasDuplicate() {
+        SinglyLinkedListNode<Character> linkedList = new SinglyLinkedListNode<>('F', 'O', 'L', 'L', 'O', 'W', ' ', 'U', 'P');
+        assertTrue(deduplicateLinkedList.hasDuplicate(linkedList));
+    }
+
+    @Test
+    public void testHasDuplicateForUniqueList() {
+        SinglyLinkedListNode<Character> linkedList = new SinglyLinkedListNode<>('F', 'O', 'L', 'W', ' ', 'U', 'P');
+        assertFalse(deduplicateLinkedList.hasDuplicate(linkedList));
     }
 
 }

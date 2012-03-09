@@ -5,10 +5,8 @@
 
 package algorithmproblems.linkedlists;
 
-import org.junit.AfterClass;
-import org.junit.Test;
 import static org.junit.Assert.*;
-import org.junit.BeforeClass;
+import org.junit.Test;
 
 public class SinglyLinkedListNodeTest {
 
@@ -29,6 +27,20 @@ public class SinglyLinkedListNodeTest {
         }
         int[] expected = {1, 2, 3, 4, 5};
         assertArrayEquals(expected, actual);
+    }
+    
+    @Test
+    public void testEquals() {
+        SinglyLinkedListNode<Integer> linkedList1 = new SinglyLinkedListNode<>(1, 2, 3, 4, 5);
+        SinglyLinkedListNode<Integer> linkedList2 = new SinglyLinkedListNode<>(1, 2, 3, 4, 5);
+        assertEquals(linkedList2, linkedList1);
+    }
+    
+    @Test
+    public void testNotEquals() {
+        SinglyLinkedListNode<Integer> linkedList1 = new SinglyLinkedListNode<>(1, 2, 3, 4, 5);
+        SinglyLinkedListNode<Integer> linkedList2 = new SinglyLinkedListNode<>(5, 4, 3, 2, 1);
+        assertFalse(linkedList2.equals(linkedList1));
     }
 
 }

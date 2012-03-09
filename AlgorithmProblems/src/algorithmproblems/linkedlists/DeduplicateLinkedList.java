@@ -6,6 +6,7 @@
 package algorithmproblems.linkedlists;
 
 import algorithmproblems.linkedlists.DeduplicateLinkedListStrategy.DeduplicateLinkedListStrategy;
+import java.util.HashMap;
 
 public class DeduplicateLinkedList {
     
@@ -20,6 +21,15 @@ public class DeduplicateLinkedList {
     }
     
     public <E extends Comparable> boolean hasDuplicate(SinglyLinkedListNode<E> head) {
+        HashMap<E, Integer> elementCounts = new HashMap<>();
+        for (SinglyLinkedListNode<E> node : head) {
+            int elementCount = elementCounts.get(node.data) == null ? 0 : elementCounts.get(node.data);
+            elementCounts.put(node.data, ++elementCount);
+            if (elementCount > 1) {
+                return true;
+            }
+        }
+        
         return false;
     }
 
